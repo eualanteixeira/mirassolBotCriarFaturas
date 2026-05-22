@@ -105,6 +105,8 @@ class BotCriaFatura(DesktopBot):
 
                                                 #Apertar o enter 1x
                                                 pyautogui.press('enter')
+                                                # pyautogui.press('tab') # A SER VALIDADO
+                                                # pyautogui.write("19") # A SER VALIDADO
 
                                                 #Confirmando se os dados entrou através da Tarefa
                                                 if self.find( "tarefa", matching=0.97, waiting_time=10000):

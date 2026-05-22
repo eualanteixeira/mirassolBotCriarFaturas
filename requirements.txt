@@ -1,0 +1,4 @@
+pyautogui
+pandas
+botcity-framework-core
+openpyxl

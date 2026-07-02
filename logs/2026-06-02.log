@@ -1,0 +1,235 @@
+2026-06-02 18:25:46,381 - INFO - Tema do sistema detectado: light
+2026-06-02 18:25:46,382 - INFO - Abrindo RDP...
+2026-06-02 18:25:46,396 - INFO - RDP aberto com sucesso
+2026-06-02 18:25:51,670 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:52,320 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:52,906 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:53,573 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:54,227 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:54,860 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:55,524 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:56,189 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:56,870 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:25:56,872 - INFO - Timeout ao encontrar euEntendoEAutorizoAberturadeArquivosRDP.png
+2026-06-02 18:25:57,106 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:25:57,725 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:25:58,400 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:25:59,030 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:25:59,641 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:26:00,268 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:26:00,928 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:26:01,576 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:26:02,261 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:26:02,264 - INFO - Timeout ao encontrar checkConexaoDesconhecidaAtiva.png
+2026-06-02 18:27:47,087 - INFO - Tema do sistema detectado: light
+2026-06-02 18:27:47,088 - ERROR - Erro geral: 'AbrirRDP' object has no attribute 'rdp'
+2026-06-02 18:27:51,434 - INFO - Tema do sistema detectado: light
+2026-06-02 18:27:51,434 - ERROR - Erro geral: 'AbrirRDP' object has no attribute 'rdp'
+2026-06-02 18:29:51,486 - INFO - Tema do sistema detectado: light
+2026-06-02 18:29:51,487 - INFO - Abrindo RDP...
+2026-06-02 18:29:51,504 - INFO - RDP aberto com sucesso
+2026-06-02 18:29:56,674 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:29:57,300 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:29:57,940 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:29:58,632 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:29:59,275 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:29:59,909 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:30:00,592 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:30:01,236 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:30:01,856 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:30:01,858 - INFO - Timeout ao encontrar euEntendoEAutorizoAberturadeArquivosRDP.png
+2026-06-02 18:30:02,098 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:02,709 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:03,355 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:03,959 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:04,647 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:05,345 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:05,997 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:06,668 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:07,300 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:30:07,302 - INFO - Timeout ao encontrar checkConexaoDesconhecidaAtiva.png
+2026-06-02 18:30:07,438 - INFO - Tela de login detectada
+2026-06-02 18:30:07,542 - INFO - cartoesInteligentesOuWIndowsHelloParaEmpresas.png encontrada em X=621 Y=440
+2026-06-02 18:30:08,063 - INFO - Clicou em cartoesInteligentesOuWIndowsHelloParaEmpresas.png
+2026-06-02 18:30:08,207 - INFO - webAuthnWindowsHelloOuChavesDeSeguranca.png encontrada em X=615 Y=460
+2026-06-02 18:30:08,728 - INFO - Clicou em webAuthnWindowsHelloOuChavesDeSeguranca.png
+2026-06-02 18:30:08,853 - INFO - unidades.png encontrada em X=513 Y=480
+2026-06-02 18:30:09,367 - INFO - Clicou em unidades.png
+2026-06-02 18:30:09,496 - INFO - outrosDispositivosPlugAndPlayPnpComSuporte.png encontrada em X=618 Y=501
+2026-06-02 18:30:10,004 - INFO - Clicou em outrosDispositivosPlugAndPlayPnpComSuporte.png
+2026-06-02 18:30:10,161 - INFO - areaDeTransferencia.png encontrada em X=544 Y=519
+2026-06-02 18:30:10,666 - INFO - Clicou em areaDeTransferencia.png
+2026-06-02 18:30:10,779 - INFO - portas.png encontrada em X=506 Y=540
+2026-06-02 18:30:11,286 - INFO - Clicou em portas.png
+2026-06-02 18:30:11,412 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:12,096 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:12,738 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:13,360 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:14,016 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:14,641 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:15,227 - INFO - Erro ao buscar impressoras.png: 
+2026-06-02 18:30:15,851 - INFO - impressoras.png encontrada em X=523 Y=560
+2026-06-02 18:30:16,368 - INFO - Clicou em impressoras.png
+2026-06-02 18:30:16,515 - INFO - conectar.png encontrada em X=821 Y=636
+2026-06-02 18:30:17,022 - INFO - Clicou em conectar.png
+2026-06-02 18:30:17,022 - INFO - Todos os cliques realizados na tela de conexão remota
+2026-06-02 18:30:22,127 - INFO - imagem: blueShield.png encontrada:
+2026-06-02 18:30:22,254 - INFO - maisOpcoes.png encontrada em X=530 Y=553
+2026-06-02 18:30:22,771 - INFO - Clicou em maisOpcoes.png
+2026-06-02 18:50:32,887 - INFO - Tema do sistema detectado: light
+2026-06-02 18:50:32,888 - INFO - Abrindo RDP...
+2026-06-02 18:50:32,911 - INFO - RDP aberto com sucesso
+2026-06-02 18:50:38,083 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:38,778 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:39,396 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:40,044 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:40,688 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:41,331 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:41,961 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:42,590 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:43,229 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:50:43,230 - INFO - Timeout ao encontrar euEntendoEAutorizoAberturadeArquivosRDP.png
+2026-06-02 18:50:43,467 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:44,084 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:44,714 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:45,329 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:45,973 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:46,637 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:47,290 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:47,973 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:48,672 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:50:48,673 - INFO - Timeout ao encontrar checkConexaoDesconhecidaAtiva.png
+2026-06-02 18:50:48,781 - INFO - Tela de login detectada
+2026-06-02 18:50:48,866 - INFO - cartoesInteligentesOuWIndowsHelloParaEmpresas.png encontrada em X=621 Y=440
+2026-06-02 18:50:49,385 - INFO - Clicou em cartoesInteligentesOuWIndowsHelloParaEmpresas.png
+2026-06-02 18:50:49,516 - INFO - webAuthnWindowsHelloOuChavesDeSeguranca.png encontrada em X=615 Y=460
+2026-06-02 18:50:50,037 - INFO - Clicou em webAuthnWindowsHelloOuChavesDeSeguranca.png
+2026-06-02 18:50:50,207 - INFO - unidades.png encontrada em X=513 Y=480
+2026-06-02 18:50:50,713 - INFO - Clicou em unidades.png
+2026-06-02 18:50:50,853 - INFO - outrosDispositivosPlugAndPlayPnpComSuporte.png encontrada em X=618 Y=501
+2026-06-02 18:50:51,360 - INFO - Clicou em outrosDispositivosPlugAndPlayPnpComSuporte.png
+2026-06-02 18:50:51,516 - INFO - areaDeTransferencia.png encontrada em X=544 Y=519
+2026-06-02 18:50:52,024 - INFO - Clicou em areaDeTransferencia.png
+2026-06-02 18:50:52,183 - INFO - portas.png encontrada em X=506 Y=540
+2026-06-02 18:50:52,688 - INFO - Clicou em portas.png
+2026-06-02 18:50:52,805 - INFO - impressoras.png encontrada em X=523 Y=560
+2026-06-02 18:50:53,312 - INFO - Clicou em impressoras.png
+2026-06-02 18:50:53,412 - INFO - conectar.png encontrada em X=821 Y=636
+2026-06-02 18:50:53,918 - INFO - Clicou em conectar.png
+2026-06-02 18:50:53,918 - INFO - Todos os cliques realizados na tela de conexão remota
+2026-06-02 18:51:43,465 - INFO - Tema do sistema detectado: light
+2026-06-02 18:51:43,467 - INFO - Abrindo RDP...
+2026-06-02 18:51:43,497 - INFO - RDP aberto com sucesso
+2026-06-02 18:51:48,630 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:49,280 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:49,914 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:50,550 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:51,205 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:51,845 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:52,461 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:53,081 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:53,727 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:51:53,727 - INFO - Timeout ao encontrar euEntendoEAutorizoAberturadeArquivosRDP.png
+2026-06-02 18:51:53,833 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:54,449 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:55,077 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:55,743 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:56,339 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:56,956 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:57,573 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:58,186 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:58,807 - INFO - Erro ao buscar cuidadoConexaoRemotaDesconhecida.png: 
+2026-06-02 18:51:58,807 - INFO - Timeout ao encontrar cuidadoConexaoRemotaDesconhecida.png
+2026-06-02 18:51:58,808 - INFO - Tema do sistema detectado: light
+2026-06-02 18:51:58,808 - INFO - Abrindo RDP...
+2026-06-02 18:51:58,827 - INFO - RDP aberto com sucesso
+2026-06-02 18:52:32,005 - INFO - Tema do sistema detectado: light
+2026-06-02 18:52:32,006 - INFO - Abrindo RDP...
+2026-06-02 18:52:32,023 - INFO - RDP aberto com sucesso
+2026-06-02 18:52:37,172 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:37,820 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:38,411 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:39,069 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:39,703 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:40,337 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:40,990 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:41,669 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:42,288 - INFO - Erro ao buscar euEntendoEAutorizoAberturadeArquivosRDP.png: 
+2026-06-02 18:52:42,288 - INFO - Timeout ao encontrar euEntendoEAutorizoAberturadeArquivosRDP.png
+2026-06-02 18:52:42,513 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:43,120 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:43,749 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:44,350 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:45,027 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:45,651 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:46,301 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:46,956 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:47,661 - INFO - Erro ao buscar checkConexaoDesconhecidaAtiva.png: 
+2026-06-02 18:52:47,662 - INFO - Timeout ao encontrar checkConexaoDesconhecidaAtiva.png
+2026-06-02 18:52:47,806 - INFO - Tela de login detectada
+2026-06-02 18:52:47,939 - INFO - cartoesInteligentesOuWIndowsHelloParaEmpresas.png encontrada em X=621 Y=440
+2026-06-02 18:52:48,459 - INFO - Clicou em cartoesInteligentesOuWIndowsHelloParaEmpresas.png
+2026-06-02 18:52:48,608 - INFO - webAuthnWindowsHelloOuChavesDeSeguranca.png encontrada em X=615 Y=460
+2026-06-02 18:52:49,125 - INFO - Clicou em webAuthnWindowsHelloOuChavesDeSeguranca.png
+2026-06-02 18:52:49,249 - INFO - unidades.png encontrada em X=513 Y=480
+2026-06-02 18:52:49,756 - INFO - Clicou em unidades.png
+2026-06-02 18:52:49,897 - INFO - outrosDispositivosPlugAndPlayPnpComSuporte.png encontrada em X=618 Y=501
+2026-06-02 18:52:50,402 - INFO - Clicou em outrosDispositivosPlugAndPlayPnpComSuporte.png
+2026-06-02 18:52:50,541 - INFO - areaDeTransferencia.png encontrada em X=544 Y=519
+2026-06-02 18:52:51,048 - INFO - Clicou em areaDeTransferencia.png
+2026-06-02 18:52:51,217 - INFO - portas.png encontrada em X=506 Y=540
+2026-06-02 18:52:51,724 - INFO - Clicou em portas.png
+2026-06-02 18:52:51,869 - INFO - impressoras.png encontrada em X=523 Y=560
+2026-06-02 18:52:52,376 - INFO - Clicou em impressoras.png
+2026-06-02 18:52:52,547 - INFO - conectar.png encontrada em X=821 Y=636
+2026-06-02 18:52:53,054 - INFO - Clicou em conectar.png
+2026-06-02 18:52:53,055 - INFO - Todos os cliques realizados na tela de conexão remota
+2026-06-02 18:52:58,167 - INFO - imagem: blueShield.png encontrada:
+2026-06-02 18:52:58,287 - INFO - maisOpcoes.png encontrada em X=530 Y=553
+2026-06-02 18:52:58,808 - INFO - Clicou em maisOpcoes.png
+2026-06-02 18:53:04,155 - INFO - Imagem principal encontrada: nomeDeUsuario.png
+2026-06-02 18:53:07,214 - INFO - Campo de usuário preenchido
+2026-06-02 18:53:08,341 - INFO - Imagem principal encontrada: senha.png
+2026-06-02 18:53:10,544 - INFO - Campo de senha preenchido
+2026-06-02 18:53:11,663 - INFO - ok.png encontrada em X=582 Y=679
+2026-06-02 18:53:12,184 - INFO - Clicou em ok.png
+2026-06-02 18:53:12,186 - INFO - Botão OK clicado
+2026-06-02 18:53:17,345 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:18,051 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:18,654 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:19,321 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:19,927 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:20,591 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:21,221 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:21,917 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:22,562 - INFO - Erro ao buscar falhaNaTentativaDeLogon.png: 
+2026-06-02 18:53:22,562 - INFO - Timeout ao encontrar falhaNaTentativaDeLogon.png
+2026-06-02 18:53:27,718 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:28,365 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:28,935 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:29,612 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:30,300 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:30,968 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:31,545 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:32,214 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:32,879 - INFO - Erro ao buscar !.png: 
+2026-06-02 18:53:32,880 - INFO - Timeout ao encontrar !.png
+2026-06-02 18:53:33,010 - INFO - Tela de acesso visual rodopar
+2026-06-02 18:53:33,103 - INFO - Imagem principal encontrada: loginVisualRodopar.png
+2026-06-02 18:53:35,361 - INFO - Usuario de acesso visual rodopar
+2026-06-02 18:53:36,011 - INFO - Imagem principal encontrada: senhaVisualRodopar.png
+2026-06-02 18:53:38,279 - INFO - Senha de acesso visual rodopar
+2026-06-02 18:53:38,393 - INFO - acessoAOSistema.png encontrada em X=638 Y=302
+2026-06-02 18:53:38,901 - INFO - Clicou em acessoAOSistema.png
+2026-06-02 18:53:38,902 - INFO - Senha de acesso visual rodopar
+2026-06-02 18:53:39,125 - INFO - okVisualRodopar.png encontrada em X=639 Y=453
+2026-06-02 18:53:39,635 - INFO - Clicou em okVisualRodopar.png
+2026-06-02 18:53:39,636 - INFO - Senha de acesso visual rodopar
+2026-06-02 18:53:39,766 - INFO - Erro ao buscar continuarVisualRodopar.png: 
+2026-06-02 18:53:40,378 - INFO - continuarVisualRodopar.png encontrada em X=438 Y=541
+2026-06-02 18:53:40,903 - INFO - Clicou em continuarVisualRodopar.png
+2026-06-02 18:53:40,905 - INFO - Clicado em continuar.
+2026-06-02 19:54:12,264 - INFO - Abrindo RDP...
+2026-06-02 19:54:12,294 - INFO - RDP aberto com sucesso
+2026-06-02 19:55:10,777 - INFO - Abrindo RDP...
+2026-06-02 19:55:10,805 - INFO - RDP aberto com sucesso

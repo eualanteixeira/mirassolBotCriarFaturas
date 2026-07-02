@@ -4,4 +4,9 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "abrir-rodopar",
+]
+
+[tool.uv.sources]
+abrir-rodopar = { git = "https://github.com/eualanteixeira/mirassol_abrir_rodopar.git" }

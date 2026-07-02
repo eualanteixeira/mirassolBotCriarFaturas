@@ -2,225 +2,198 @@ import pyautogui
 import time
 import pandas
 from datetime import datetime
-
 from botcity.core import DesktopBot
 import tkinter as tk
 from tkinter import filedialog
+from abrir_rodopar.rdp import main as abrir_vr
 
 # Cria uma janela oculta (só para não mostrar a janela raiz)
 root = tk.Tk()
 root.withdraw()
 
 # Abre o seletor de arquivos
-caminho_arquivo = filedialog.askopenfilename(title="Selecione a Planilha de Base")
+caminho_arquivo = filedialog.askopenfilename(title="Selecione a Planilha: ")
 
 class BotCriaFatura(DesktopBot):
-    def action(self, execution=None):
-        #msg de alerta
-        pyautogui.alert("Iniciando a operação")
+    def __init__(self):
+        super().__init__()
+        self.abrir_rodopar = abrir_vr
 
-        #Alimentando todos os arquivos do diretório numa variavel
-                #Ler a lista de faturas a extrair
+    def main(self,):
+
+        abrir_vr()
+        
+        #Ler a lista de faturas a extrair
         listaCTes = pandas.read_excel(caminho_arquivo)
-        #Começar o processo de extração
-        #Abrindo o sistema na base de produção
-        self.execute(r"C:\Visual_Rodopar\Visual_Rodopar\VR_PROD_MIRASSOL_V3.rdp")
-        #Abrindo o sistema na base de testes
-        #self.execute(r'C:\Visual_Rodopar\VR_TESTE_MIRASSOL_V3.rdp')
 
-        #Digitando a senha do Mir
-        if self.find( "senhaMir", matching=0.97, waiting_time=20000):
-            self.click()
-            time.sleep(0.5)
-            self.paste('mirassol')
-            pyautogui.press('enter')
-            time.sleep(5)
+        if self.find( "faturamento", matching=0.97, waiting_time=20000):
+            for CTes in range(len(listaCTes)):
+                def pegar_valor(coluna):
+                    try:
+                        return str(listaCTes[coluna][CTes])
+                    except Exception as e:
+                        pyautogui.alert(f"Erro ao acessar a coluna '{coluna}'. Verifique se ela existe na planilha.")
+                        raise e
+                #Alimentando as variaveis
+                filFat = pegar_valor('FILIAL')
+                codPag = pegar_valor('PAGADOR')
+                obs    = pegar_valor('OBSERVACAO')
+                filCTe = pegar_valor('FILIAL')
+                serCTe = pegar_valor('SERIE CTE')
+                numCTe = pegar_valor('CTES')
+                desc   = pegar_valor('DESCONTO')
 
-        #Digitando o login do Rodopar
-        if self.find( "loginRodopar", matching=0.97, waiting_time=30000):
-            self.click_relative(124, 38)
-            #self.paste('frodrigues')
-            #self.paste('lreis')
-            pyautogui.write('rpa_central')
-            time.sleep(1)
-            pyautogui.press('enter')
-            pyautogui.write('mirassol')
-            #self.paste('lineage')
-            #self.paste('mirassol')
-            time.sleep(0.5)
-            pyautogui.press('enter')
-            pyautogui.press('enter')
-
-            #Dando Ok para selecionar todas as filiais
-            if self.find( "selecioneFilial", matching=0.97, waiting_time=20000):
-                self.click_relative(-15, 305)
-                #Identificando se o menu faturamento apareceu
+                #Abrindo o ambiente da fatura
                 if self.find( "faturamento", matching=0.97, waiting_time=20000):
-                    for CTes in range(len(listaCTes)):
-                        def pegar_valor(coluna):
-                            try:
-                                return str(listaCTes[coluna][CTes])
-                            except Exception as e:
-                                pyautogui.alert(f"Erro ao acessar a coluna '{coluna}'. Verifique se ela existe na planilha.")
-                                raise e
-                        #Alimentando as variaveis
-                        filFat = pegar_valor('FILIAL')
-                        codPag = pegar_valor('PAGADOR')
-                        obs    = pegar_valor('OBSERVACAO')
-                        filCTe = pegar_valor('FILIAL')
-                        serCTe = pegar_valor('SERIE CTE')
-                        numCTe = pegar_valor('CTES')
-                        desc   = pegar_valor('DESCONTO')
+                    self.click()
 
-                        #Abrindo o ambiente da fatura
-                        if self.find( "faturamento", matching=0.97, waiting_time=20000):
+                    if self.find( "Movimentacao", matching=0.97, waiting_time=10000):
+                        self.click()
+
+                        if self.find( "fatura_Duplicata", matching=0.97, waiting_time=10000):
                             self.click()
 
-                            if self.find( "Movimentacao", matching=0.97, waiting_time=10000):
-                                self.click()
+                            #Clicando na filial para inserir a filial da fatura
+                            if self.find( "filialFatura", matching=0.97, waiting_time=10000):
+                                self.click_relative(55, 33)
 
-                                if self.find( "fatura_Duplicata", matching=0.97, waiting_time=10000):
-                                    self.click()
+                                #Digitando o código da filial
+                                pyautogui.write(filFat)
 
-                                    #Clicando na filial para inserir a filial da fatura
-                                    if self.find( "filialFatura", matching=0.97, waiting_time=10000):
-                                        self.click_relative(55, 33)
+                                #Apertando o enter 2x
+                                pyautogui.press('enter')
+                                pyautogui.press('enter')
 
-                                        #Digitando o código da filial
-                                        pyautogui.write(filFat)
+                                #Confirmando se deu certo através da fatura inconsistente
+                                if self.find( "faturaInconsistente", matching=0.97, waiting_time=10000):
 
-                                        #Apertando o enter 2x
+                                    #Clicar no codigo cliente (pagador)
+                                    if self.find( "Cliente_pagador", matching=0.97, waiting_time=10000):
+                                        self.click_relative(95, 37)
+
+                                        #Digitar o código do cliente
+                                        pyautogui.write(codPag)
+
+                                        #Apertar o enter 1x
                                         pyautogui.press('enter')
-                                        pyautogui.press('enter')
+                                        # pyautogui.press('tab') # A SER VALIDADO
+                                        # pyautogui.write("19") # A SER VALIDADO
 
-                                        #Confirmando se deu certo através da fatura inconsistente
-                                        if self.find( "faturaInconsistente", matching=0.97, waiting_time=10000):
+                                        #Confirmando se os dados entrou através da Tarefa
+                                        if self.find( "tarefa", matching=0.97, waiting_time=10000):
 
-                                            #Clicar no codigo cliente (pagador)
-                                            if self.find( "Cliente_pagador", matching=0.97, waiting_time=10000):
-                                                self.click_relative(95, 37)
+                                            #Clicar em observação
+                                            if self.find( "obsFatura", matching=0.97, waiting_time=10000):
+                                                self.click_relative(90, 72)
 
-                                                #Digitar o código do cliente
-                                                pyautogui.write(codPag)
+                                                #Inserir a observação
+                                                pyautogui.write(obs)
 
-                                                #Apertar o enter 1x
-                                                pyautogui.press('enter')
-                                                # pyautogui.press('tab') # A SER VALIDADO
-                                                # pyautogui.write("19") # A SER VALIDADO
+                                                #Clicar em salvar
+                                                if self.find( "salvar", matching=0.97, waiting_time=10000):
+                                                    self.click()
 
-                                                #Confirmando se os dados entrou através da Tarefa
-                                                if self.find( "tarefa", matching=0.97, waiting_time=10000):
+                                                    #Ir para aba documentos
+                                                    if self.find( "abaDocumentos", matching=0.97, waiting_time=10000):
+                                                        self.click()
 
-                                                    #Clicar em observação
-                                                    if self.find( "obsFatura", matching=0.97, waiting_time=10000):
-                                                        self.click_relative(90, 72)
+                                                    #Clicar na pastinha
+                                                        if ',' in numCTe:
+                                                            lista_CTES =  numCTe.split(',')
+                                                            for numero_str in lista_CTES:
+                                                                if self.find( "pastaNovoDoc", matching=0.97, waiting_time=50000):
+                                                                    self.click()
+                                                            #Apertar tab
+                                                                    pyautogui.press('tab')
 
-                                                        #Inserir a observação
-                                                        pyautogui.write(obs)
+                                                            #Digitar a filial do CTe
+                                                                    pyautogui.write(filCTe)
 
-                                                        #Clicar em salvar
-                                                        if self.find( "salvar", matching=0.97, waiting_time=10000):
-                                                            self.click()
+                                                            #Apertar enter
+                                                                    pyautogui.press('enter')
 
-                                                            #Ir para aba documentos
-                                                            if self.find( "abaDocumentos", matching=0.97, waiting_time=10000):
+                                                            #Digitar a série
+                                                                    numeroCTe, serieCTe = numero_str.split('-')
+
+                                                                    pyautogui.write(serieCTe)
+
+                                                            #Apertar enter
+                                                                    pyautogui.press('enter')
+                                                            
+                                                            #Digitar o número do CTe
+                                                                    pyautogui.write(numeroCTe)
+
+                                                            #Apertar enter 2x
+                                                                    pyautogui.press('enter')
+                                                                    pyautogui.press('enter')
+                                                                    pyautogui.click(514,399)
+                                                                    time.sleep(2)
+                                                        else:
+                                                            if self.find( "pastaNovoDoc", matching=0.97, waiting_time=10000):
                                                                 self.click()
 
-                                                            #Clicar na pastinha
-                                                                if ',' in numCTe:
-                                                                    lista_CTES =  numCTe.split(',')
-                                                                    for numero_str in lista_CTES:
-                                                                        if self.find( "pastaNovoDoc", matching=0.97, waiting_time=50000):
-                                                                            self.click()
-                                                                    #Apertar tab
-                                                                            pyautogui.press('tab')
+                                                            #Apertar tab
+                                                                pyautogui.press('tab')
 
-                                                                    #Digitar a filial do CTe
-                                                                            pyautogui.write(filCTe)
+                                                            #Digitar a filial do CTe
+                                                                pyautogui.write(filCTe)
 
-                                                                    #Apertar enter
-                                                                            pyautogui.press('enter')
+                                                            #Apertar enter
+                                                                pyautogui.press('enter')
 
-                                                                    #Digitar a série
-                                                                            numeroCTe, serieCTe = numero_str.split('-')
+                                                            #Digitar a série
+                                                                pyautogui.write(serCTe)
 
-                                                                            pyautogui.write(serieCTe)
+                                                            #Apertar enter
+                                                                pyautogui.press('enter')
+                                                            
+                                                            #Digitar o número do CTe
+                                                                pyautogui.write(numCTe)
 
-                                                                    #Apertar enter
-                                                                            pyautogui.press('enter')
+                                                            #Apertar enter 2x
+                                                                pyautogui.press('enter')
+                                                                pyautogui.press('enter')
+
+                                                            #Confirmar se entrou buscando o 1 de 1
+                                                        if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=10000):
+
+                                                                #Estrutura de decisão para inserir o desconto somente se houver
+                                                                if desc != '0.0':
+                                                                    #Clicando no campo para inserir o desconto
+                                                                    if self.find( "desconto", matching=0.97, waiting_time=10000):
+                                                                        self.click_relative(153, 5)
+
+                                                                        #Digitando o valor do desconto
+                                                                        pyautogui.write(str(desc).replace('.',','))
+
+                                                                        #Apertar enter 1x
+                                                                        pyautogui.press('enter')
+
+                                                                #Efetuar a fatura através o atalho (F8)
+                                                                pyautogui.press('f8')
+                                                                
+                                                                #Estrutura de decisão para clicar no desconto somente se houver
+                                                                if desc != '0.0':
+                                                                    #Clicar no yes (somente se tiver desconto)
+                                                                    if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=10000):
+                                                                        self.click_relative(200, 77)
+
+                                                                #Clicar no yes
+                                                                if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=10000):
+                                                                    self.click_relative(39, 66)
                                                                     
-                                                                    #Digitar o número do CTe
-                                                                            pyautogui.write(numeroCTe)
-
-                                                                    #Apertar enter 2x
-                                                                            pyautogui.press('enter')
-                                                                            pyautogui.press('enter')
-                                                                            pyautogui.click(514,399)
-                                                                            time.sleep(2)
-                                                                else:
-                                                                    if self.find( "pastaNovoDoc", matching=0.97, waiting_time=10000):
+                                                                    #Clicar no ok
+                                                                    if self.find( "faturaEfetuada", matching=0.97, waiting_time=10000):
                                                                         self.click()
 
-                                                                    #Apertar tab
-                                                                        pyautogui.press('tab')
-
-                                                                    #Digitar a filial do CTe
-                                                                        pyautogui.write(filCTe)
-
-                                                                    #Apertar enter
-                                                                        pyautogui.press('enter')
-
-                                                                    #Digitar a série
-                                                                        pyautogui.write(serCTe)
-
-                                                                    #Apertar enter
-                                                                        pyautogui.press('enter')
-                                                                    
-                                                                    #Digitar o número do CTe
-                                                                        pyautogui.write(numCTe)
-
-                                                                    #Apertar enter 2x
-                                                                        pyautogui.press('enter')
-                                                                        pyautogui.press('enter')
-
-                                                                    #Confirmar se entrou buscando o 1 de 1
-                                                                if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=10000):
-
-                                                                        #Estrutura de decisão para inserir o desconto somente se houver
-                                                                        if desc != '0.0':
-                                                                            #Clicando no campo para inserir o desconto
-                                                                            if self.find( "desconto", matching=0.97, waiting_time=10000):
-                                                                                self.click_relative(153, 5)
-
-                                                                                #Digitando o valor do desconto
-                                                                                pyautogui.write(str(desc).replace('.',','))
-
-                                                                                #Apertar enter 1x
-                                                                                pyautogui.press('enter')
-
-                                                                        #Efetuar a fatura através o atalho (F8)
-                                                                        pyautogui.press('f8')
-                                                                        
-                                                                        #Estrutura de decisão para clicar no desconto somente se houver
-                                                                        if desc != '0.0':
-                                                                            #Clicar no yes (somente se tiver desconto)
-                                                                            if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=10000):
-                                                                                self.click_relative(200, 77)
-
-                                                                        #Clicar no yes
-                                                                        if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=10000):
-                                                                            self.click_relative(39, 66)
-                                                                            
-                                                                            #Clicar no ok
-                                                                            if self.find( "faturaEfetuada", matching=0.97, waiting_time=10000):
-                                                                                self.click()
-
-                                                                                #Fechando o ambiente de fatura
-                                                                                pyautogui.hotkey('alt','v')
+                                                                        #Fechando o ambiente de fatura
+                                                                        pyautogui.hotkey('alt','v')
     def not_found(self, label):
         print(f"Element not found: {label}")
         
 if __name__ == '__main__':
-    BotCriaFatura.main()
+
+    bot = BotCriaFatura()
+    bot.main()
 
 

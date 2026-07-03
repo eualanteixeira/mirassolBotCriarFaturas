@@ -2,3 +2,5 @@ pyautogui
 pandas
 botcity-framework-core
 openpyxl
+keyboard>=0.13.5
+plyer>=2.1.0

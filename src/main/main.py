@@ -3,11 +3,73 @@ import re
 import time
 import pandas
 import pyperclip
+import logging
+import os
+import sys
+import traceback
 from datetime import datetime
 from botcity.core import DesktopBot
 import tkinter as tk
 from tkinter import filedialog
 from abrir_rodopar.rdp import main as abrir_vr
+from controle_execucao import ControleExecucao
+
+# ---------------------------------------------------------------------------
+# Configuração de logging detalhado (arquivo + console)
+# ---------------------------------------------------------------------------
+os.makedirs("logs", exist_ok=True)
+LOG_FILE = os.path.join("logs", f"botCriarFatura_{datetime.now():%Y-%m-%d}.log")
+
+logger = logging.getLogger("BotCriarFatura")
+logger.setLevel(logging.DEBUG)
+
+_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+
+_file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
+_file_handler.setLevel(logging.DEBUG)
+_file_handler.setFormatter(_formatter)
+
+_console_handler = logging.StreamHandler(sys.stdout)
+_console_handler.setLevel(logging.INFO)
+_console_handler.setFormatter(_formatter)
+
+logger.addHandler(_file_handler)
+logger.addHandler(_console_handler)
+
+# ---------------------------------------------------------------------------
+# Intercepta as funções do pyautogui usadas no fluxo para logar toda ação de
+# teclado/mouse automaticamente, sem precisar alterar cada chamada existente.
+# ---------------------------------------------------------------------------
+_pyautogui_write = pyautogui.write
+_pyautogui_press = pyautogui.press
+_pyautogui_hotkey = pyautogui.hotkey
+_pyautogui_click = pyautogui.click
+
+
+def _write_com_log(texto, *args, **kwargs):
+    logger.debug(f"pyautogui.write('{texto}')")
+    return _pyautogui_write(texto, *args, **kwargs)
+
+
+def _press_com_log(tecla, *args, **kwargs):
+    logger.debug(f"pyautogui.press('{tecla}')")
+    return _pyautogui_press(tecla, *args, **kwargs)
+
+
+def _hotkey_com_log(*args, **kwargs):
+    logger.debug(f"pyautogui.hotkey{args}")
+    return _pyautogui_hotkey(*args, **kwargs)
+
+
+def _click_com_log(*args, **kwargs):
+    logger.debug(f"pyautogui.click(args={args}, kwargs={kwargs})")
+    return _pyautogui_click(*args, **kwargs)
+
+
+pyautogui.write = _write_com_log
+pyautogui.press = _press_com_log
+pyautogui.hotkey = _hotkey_com_log
+pyautogui.click = _click_com_log
 
 # Cria uma janela oculta (só para não mostrar a janela raiz)
 root = tk.Tk()
@@ -15,16 +77,49 @@ root.withdraw()
 
 # Abre o seletor de arquivos
 caminho_arquivo = filedialog.askopenfilename(title="Selecione a Planilha: ")
+logger.info(f"Planilha selecionada pelo usuário: '{caminho_arquivo}'")
 
 class BotCriaFatura(DesktopBot):
     def __init__(self):
         super().__init__()
         self.abrir_rodopar = abrir_vr
+        self.controle = ControleExecucao()
+
+    def find(self, label, *args, **kwargs):
+        inicio = time.time()
+        resultado = super().find(label, *args, **kwargs)
+        duracao = time.time() - inicio
+        if resultado:
+            logger.debug(
+                f"find('{label}') -> ENCONTRADO em {duracao:.2f}s "
+                f"(left={resultado.left}, top={resultado.top})"
+            )
+        else:
+            logger.warning(f"find('{label}') -> NÃO ENCONTRADO (aguardou {duracao:.2f}s)")
+        return resultado
+
+    def click(self, *args, **kwargs):
+        logger.debug(f"click(args={args}, kwargs={kwargs})")
+        return super().click(*args, **kwargs)
+
+    def click_relative(self, x, y, *args, **kwargs):
+        logger.debug(f"click_relative(x={x}, y={y})")
+        return super().click_relative(x, y, *args, **kwargs)
+
+    def double_click_relative(self, x, y, *args, **kwargs):
+        logger.debug(f"double_click_relative(x={x}, y={y})")
+        return super().double_click_relative(x, y, *args, **kwargs)
 
     def main(self,):
 
+        logger.info("Iniciando BotCriaFatura.main()")
+
+        self.controle.iniciar_hotkeys()
+        logger.info("Atalhos de controle registrados (ctrl+shift+space: pausar/continuar | ctrl+shift+q: parar)")
+
         rodopar_aberto = self.find( "faturamento", matching=0.97, waiting_time=5000)
         if not rodopar_aberto:
+            logger.info("Tela 'faturamento' não encontrada, abrindo o Visual Rodopar via RDP...")
             abrir_vr()
 
         if self.find( "faturamento", matching=0.97, waiting_time=20000):
@@ -38,9 +133,21 @@ class BotCriaFatura(DesktopBot):
 
         #Ler a lista de faturas a extrair
         listaCTes = pandas.read_excel(caminho_arquivo, dtype={'FATURA': str, 'SITUACAO': str, 'RESUMO': str})
+        logger.info(f"Planilha carregada: {len(listaCTes)} linha(s) em '{caminho_arquivo}'")
+
+        # Intercepta o to_excel desse DataFrame para logar toda gravação em disco
+        _to_excel_original = listaCTes.to_excel
+
+        def _to_excel_com_log(*args, **kwargs):
+            logger.info(f"Salvando planilha em '{caminho_arquivo}' ({len(listaCTes)} linha(s))")
+            return _to_excel_original(*args, **kwargs)
+
+        listaCTes.to_excel = _to_excel_com_log
 
         if self.find( "faturamento", matching=0.97, waiting_time=20000):
             for CTes in range(len(listaCTes)):
+
+                self.controle.checkpoint()
 
                 numero_duplicata_principal = 0
 
@@ -50,8 +157,9 @@ class BotCriaFatura(DesktopBot):
                         # se for NaN (célula vazia), devolve string vazia
                         if pandas.isna(valor):
                             return ""
-                        return str(valor).strip() 
+                        return str(valor).strip()
                     except Exception as e:
+                        logger.error(f"Erro ao acessar a coluna '{coluna}' na linha {CTes}: {e}")
                         pyautogui.alert(f"Erro ao acessar a coluna '{coluna}'. Verifique se ela existe na planilha.")
                         raise e
 
@@ -68,7 +176,13 @@ class BotCriaFatura(DesktopBot):
                 # fatura = pegar_valor('FATURA')
                 resumo = pegar_valor('RESUMO')
 
+                logger.info(
+                    f"--- Linha {CTes + 1}/{len(listaCTes)} | FILIAL={filFat} PAGADOR={codPag} "
+                    f"CTES={numCTe} SERIE={serCTe} DESCONTO={desc} SITUACAO='{situac}' ---"
+                )
+
                 if situac == "FATURAR" or situac == "":
+                    logger.debug(f"Linha {CTes} elegível para faturamento (SITUACAO='{situac}')")
 
                 #Abrindo o ambiente da fatura
                     if self.find( "faturamento", matching=0.97, waiting_time=20000):
@@ -121,11 +235,12 @@ class BotCriaFatura(DesktopBot):
                                                         self.click()
 
                                                         if self.find( "numeroDuplicata", matching=0.97, waiting_time=5000):
-                                                            self.double_click_relative(x=80, y=10) 
-                                                            numero_duplicata_principal = pyautogui.hotkey('ctrl','c')
+                                                            self.double_click_relative(x=80, y=10)
+                                                            time.sleep(1)
+                                                            pyautogui.hotkey('ctrl','c')
                                                             numero_duplicata_principal = pyperclip.paste()
                                                             print(numero_duplicata_principal)
-                                                            duplicata = pyperclip.paste()
+                                                            
 
                                                         #Ir para aba documentos
                                                         if self.find( "abaDocumentos", matching=0.97, waiting_time=5000):
@@ -138,6 +253,8 @@ class BotCriaFatura(DesktopBot):
                                                                 inconsistencia = 0
 
                                                                 for numero_str in lista_CTES:
+
+                                                                    self.controle.checkpoint()
 
                                                                     quantidade_cte = len(lista_CTES)
 

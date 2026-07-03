@@ -37,10 +37,12 @@ class BotCriaFatura(DesktopBot):
             pyautogui.hotkey('alt','v')
 
         #Ler a lista de faturas a extrair
-        listaCTes = pandas.read_excel(caminho_arquivo, dtype={'FATURA': str, 'SITUACAO': str})
+        listaCTes = pandas.read_excel(caminho_arquivo, dtype={'FATURA': str, 'SITUACAO': str, 'RESUMO': str})
 
         if self.find( "faturamento", matching=0.97, waiting_time=20000):
             for CTes in range(len(listaCTes)):
+
+                numero_duplicata_principal = 0
 
                 def pegar_valor(coluna):
                     try:
@@ -63,9 +65,10 @@ class BotCriaFatura(DesktopBot):
                 numCTe = pegar_valor('CTES')
                 desc   = pegar_valor('DESCONTO')
                 situac = pegar_valor('SITUACAO')
-                fatura = pegar_valor('FATURA')
+                # fatura = pegar_valor('FATURA')
+                resumo = pegar_valor('RESUMO')
 
-                if situac == "FATURAR":
+                if situac == "FATURAR" or situac == "":
 
                 #Abrindo o ambiente da fatura
                     if self.find( "faturamento", matching=0.97, waiting_time=20000):
@@ -116,6 +119,13 @@ class BotCriaFatura(DesktopBot):
                                                     #Clicar em salvar
                                                     if self.find( "salvar", matching=0.97, waiting_time=5000):
                                                         self.click()
+
+                                                        if self.find( "numeroDuplicata", matching=0.97, waiting_time=5000):
+                                                            self.double_click_relative(x=80, y=10) 
+                                                            numero_duplicata_principal = pyautogui.hotkey('ctrl','c')
+                                                            numero_duplicata_principal = pyperclip.paste()
+                                                            print(numero_duplicata_principal)
+                                                            duplicata = pyperclip.paste()
 
                                                         #Ir para aba documentos
                                                         if self.find( "abaDocumentos", matching=0.97, waiting_time=5000):
@@ -177,10 +187,10 @@ class BotCriaFatura(DesktopBot):
 
                                                                                 print(f"Duplicata gerada: {numero_duplicata}")
 
-                                                                            fatura = fatura + f"Documento: {numeroCTe} / Fatura: {numero_duplicata}"
+                                                                            resumo = resumo + f"Documento: {numeroCTe} esta na Fatura: {numero_duplicata} \n"
 
                                                                             listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO" 
-                                                                            listaCTes.at[CTes, 'FATURA'] = fatura
+                                                                            listaCTes.at[CTes, 'RESUMO'] = resumo
                                                                             listaCTes.to_excel(caminho_arquivo, index=False)
 
                                                                             pyautogui.press('enter')
@@ -199,13 +209,13 @@ class BotCriaFatura(DesktopBot):
                                                                             self.click()
                                                                             time.sleep(0.5)
                                                                             
-                                                                            if fatura == "":
-                                                                                fatura = f"Documento: {numeroCTe} não autorizado. "
+                                                                            if resumo == "":
+                                                                                resumo = f"Documento: {numeroCTe} não autorizado. \n"
                                                                             else:
-                                                                                fatura = fatura + f"\n/ Documento: {numeroCTe} não autorizado. "
+                                                                                resumo = resumo + f"Documento: {numeroCTe} não autorizado. \n"
 
-                                                                            # listaCTes.at[CTes, 'SITUACAO'] = "EM FATURA" 
                                                                             listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO"
+                                                                            listaCTes.at[CTes, 'RESUMO'] = resumo
                                                                             listaCTes.to_excel(caminho_arquivo, index=False)
 
                                                                             pyautogui.press('enter')
@@ -219,7 +229,15 @@ class BotCriaFatura(DesktopBot):
                                                                             inconsistencia += 1
 
                                                                             continue
-                                                                            
+                                                                        
+                                                                        if inconsistencia == 0: 
+                                                                            situacao_fatura = "FATURADO"
+                                                                        else:
+                                                                            situacao_fatura = "FATURA INCONSISTENTE"
+
+                                                                        listaCTes.at[CTes, 'SITUACAO'] = situacao_fatura 
+                                                                        listaCTes.at[CTes, 'FATURA'] = numero_duplicata_principal
+                                                                        listaCTes.to_excel(caminho_arquivo, index=False)    
                                                                             
                                                                         pyautogui.click(514,399)
                                                                         time.sleep(2)
@@ -240,6 +258,8 @@ class BotCriaFatura(DesktopBot):
                                                                                             pyautogui.hotkey('alt','v')
 
                                                                     inconsistencia = 0
+                                                                    pyautogui.hotkey('alt','v')
+
                                                                     continue
 
                                                                 else:
@@ -272,7 +292,7 @@ class BotCriaFatura(DesktopBot):
                                                                             if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=5000):
                                                                                 self.click_relative(39, 66)
 
-                                                                                if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=5000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -280,26 +300,54 @@ class BotCriaFatura(DesktopBot):
                                                                                     duplicata = pyperclip.paste()
 
                                                                                     linhas_uteis = [l.strip() for l in duplicata.splitlines() if l.strip() and not l.strip().startswith('---')]
-                                                                                    
+
                                                                                     mensagem = linhas_uteis[1]
-                                                                                    match = re.search(r'(\d+)/(\d+)', mensagem)
+                                                                                    match = re.search(r'Filial \[(\d+)\], N[ºo]\s*\[(\d+)\]', mensagem)
 
                                                                                     if match:
-                                                                                        # codigo = match.group(0)   # '102/30736' (completo)
                                                                                         # filial = match.group(1)   # '102'
-                                                                                        numero = match.group(2)   # '30736' 
+                                                                                        numero = match.group(2)   # '30757'
 
-                                                                                        print(f"Duplicata gerada: {numero}")
+                                                                                        print(f"Duplicata já movimentada: {numero}")
 
-                                                                                    listaCTes.at[CTes, 'SITUACAO'] = "FATURADO" 
+                                                                                    listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO"
                                                                                     listaCTes.at[CTes, 'FATURA'] = numero
+                                                                                    listaCTes.at[CTes, 'RESUMO'] = f'Fatura {numero} já foi movimentada'
                                                                                     listaCTes.to_excel(caminho_arquivo, index=False)
-                                                                                
-                                                                                #Clicar no ok
-                                                                                if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
-                                                                                    self.click()
-                                                                                    #Fechando o ambiente de fatura
-                                                                                    pyautogui.hotkey('alt','v')
+
+
+                                                                                    continue
+
+                                                                                else:
+
+                                                                                    if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                                        self.click()
+                                                                                        time.sleep(0.5)
+                                                                                        duplicata = pyautogui.hotkey('ctrl', 'c')
+                                                                                        time.sleep(0.5)
+                                                                                        duplicata = pyperclip.paste()
+
+                                                                                        linhas_uteis = [l.strip() for l in duplicata.splitlines() if l.strip() and not l.strip().startswith('---')]
+                                                                                        
+                                                                                        mensagem = linhas_uteis[1]
+                                                                                        match = re.search(r'(\d+)/(\d+)', mensagem)
+
+                                                                                        if match:
+                                                                                            # codigo = match.group(0)   # '102/30736' (completo)
+                                                                                            # filial = match.group(1)   # '102'
+                                                                                            numero = match.group(2)   # '30736' 
+
+                                                                                            print(f"Duplicata gerada: {numero}")
+
+                                                                                        listaCTes.at[CTes, 'SITUACAO'] = "FATURADO" 
+                                                                                        listaCTes.at[CTes, 'RESUMO'] = numero
+                                                                                        listaCTes.to_excel(caminho_arquivo, index=False)
+                                                                                    
+                                                                                    #Clicar no ok
+                                                                                    if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
+                                                                                        self.click()
+                                                                                        #Fechando o ambiente de fatura
+                                                                                        pyautogui.hotkey('alt','v')
 
                                                                     else:
                                                                         if self.find( "excluir", matching=0.97, waiting_time=5000):
@@ -355,10 +403,10 @@ class BotCriaFatura(DesktopBot):
 
                                                                             print(f"Duplicata gerada: {numero_duplicata}")
 
-                                                                        fatura = fatura + f"Documento: {numCTe} / Fatura: {numero_duplicata}"
+                                                                        resumo = resumo + f"Documento: {numCTe} esta na Fatura: {numero_duplicata} \n"
 
                                                                         listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO" 
-                                                                        listaCTes.at[CTes, 'FATURA'] = fatura
+                                                                        listaCTes.at[CTes, 'RESUMO'] = resumo
                                                                         listaCTes.to_excel(caminho_arquivo, index=False)
 
                                                                         pyautogui.press('enter')
@@ -380,12 +428,13 @@ class BotCriaFatura(DesktopBot):
                                                                         self.click()
                                                                         time.sleep(0.5)
                                                                         
-                                                                        if fatura == "":
-                                                                            fatura = f"Documento: {numCTe} não autorizado. "
+                                                                        if resumo == "":
+                                                                            resumo = f"Documento: {numCTe} não autorizado. \n"
                                                                         else:
-                                                                            fatura = fatura + f"\n/ Documento: {numCTe} não autorizado. "
+                                                                            resumo = resumo + f"Documento: {numCTe} não autorizado. \n"
 
                                                                         listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO"
+                                                                        listaCTes.at[CTes, 'RESUMO'] = resumo
                                                                         listaCTes.to_excel(caminho_arquivo, index=False)
 
                                                                         pyautogui.press('enter')
@@ -432,34 +481,61 @@ class BotCriaFatura(DesktopBot):
                                                                         if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=5000):
                                                                             self.click_relative(39, 66)
 
-                                                                            if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
-                                                                                self.click()
-                                                                                time.sleep(0.5)
-                                                                                duplicata = pyautogui.hotkey('ctrl', 'c')
-                                                                                time.sleep(0.5)
-                                                                                duplicata = pyperclip.paste()
+                                                                            if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=5000):
+                                                                                    self.click()
+                                                                                    time.sleep(0.5)
+                                                                                    duplicata = pyautogui.hotkey('ctrl', 'c')
+                                                                                    time.sleep(0.5)
+                                                                                    duplicata = pyperclip.paste()
 
-                                                                                linhas_uteis = [l.strip() for l in duplicata.splitlines() if l.strip() and not l.strip().startswith('---')]
+                                                                                    linhas_uteis = [l.strip() for l in duplicata.splitlines() if l.strip() and not l.strip().startswith('---')]
+
+                                                                                    mensagem = linhas_uteis[1]
+                                                                                    match = re.search(r'Filial \[(\d+)\], N[ºo]\s*\[(\d+)\]', mensagem)
+
+                                                                                    if match:
+                                                                                        # filial = match.group(1)   # '102'
+                                                                                        numero = match.group(2)   # '30757'
+
+                                                                                        print(f"Duplicata já movimentada: {numero}")
+
+                                                                                    listaCTes.at[CTes, 'SITUACAO'] = "EM VALIDAÇÃO"
+                                                                                    listaCTes.at[CTes, 'FATURA'] = numero
+                                                                                    listaCTes.at[CTes, 'RESUMO'] = f'Fatura {numero} já foi movimentada'
+                                                                                    listaCTes.to_excel(caminho_arquivo, index=False)
+
+
+                                                                                    continue
+                                                                            else:
+
+                                                                                if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                                    self.click()
+                                                                                    time.sleep(0.5)
+                                                                                    duplicata = pyautogui.hotkey('ctrl', 'c')
+                                                                                    time.sleep(0.5)
+                                                                                    duplicata = pyperclip.paste()
+
+                                                                                    linhas_uteis = [l.strip() for l in duplicata.splitlines() if l.strip() and not l.strip().startswith('---')]
+                                                                                    
+                                                                                    mensagem = linhas_uteis[1]
+                                                                                    match = re.search(r'(\d+)/(\d+)', mensagem)
+
+                                                                                    if match:
+                                                                                        # codigo = match.group(0)   # '102/30736' (completo)
+                                                                                        # filial = match.group(1)   # '102'
+                                                                                        numero = match.group(2)   # '30736' 
+
+                                                                                        print(f"Duplicata gerada: {numero}")
+
+                                                                                    listaCTes.at[CTes, 'SITUACAO'] = "FATURADO" 
+                                                                                    listaCTes.at[CTes, 'FATURA'] = numero
+                                                                                    listaCTes.to_excel(caminho_arquivo, index=False)
                                                                                 
-                                                                                mensagem = linhas_uteis[1]
-                                                                                match = re.search(r'(\d+)/(\d+)', mensagem)
-
-                                                                                if match:
-                                                                                    # codigo = match.group(0)   # '102/30736' (completo)
-                                                                                    # filial = match.group(1)   # '102'
-                                                                                    numero = match.group(2)   # '30736' 
-
-                                                                                    print(f"Duplicata gerada: {numero}")
-
-                                                                                listaCTes.at[CTes, 'SITUACAO'] = "FATURADO" 
-                                                                                listaCTes.at[CTes, 'FATURA'] = numero
-                                                                                listaCTes.to_excel(caminho_arquivo, index=False)
-                                                                            
-                                                                            #Clicar no ok
-                                                                            if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
-                                                                                self.click()
-                                                                                #Fechando o ambiente de fatura
-                                                                                pyautogui.hotkey('alt','v')
+                                                                                #Clicar no ok
+                                                                                if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
+                                                                                    self.click()
+                                                                                    #Fechando o ambiente de fatura
+                                                                                    pyautogui.hotkey('alt','v')
                                                                             
                                                                 else:
                                                                     if self.find( "excluir", matching=0.97, waiting_time=5000):

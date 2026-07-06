@@ -1,10 +1,25 @@
 # Gerar .exe via auto-py-to-exe
 
 ```
-pyinstaller --noconfirm --onefile --console --name "Criar Fatura" --add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" --hidden-import "abrir_rodopar" --hidden-import "abrir_rodopar.rdp" --hidden-import "abrir_rodopar.controle" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." --hidden-import "plyer" --hidden-import "plyer.platforms" --hidden-import "plyer.platforms.win.notification"  "C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
+pyinstaller --noconfirm --onefile --console --name "Criar Fatura" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." 
+--hidden-import "abrir_rodopar" 
+--hidden-import "abrir_rodopar.rdp" 
+--hidden-import "abrir_rodopar.controle" 
+--hidden-import "plyer" 
+--hidden-import "plyer.platforms" 
+--hidden-import "plyer.platforms.win.notification"  "C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
 ```
 
-
+pyinstaller --noconfirm --onefile --console --name "Bot Criar Fatura" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." --hidden-import "abrir_rodopar" 
+--hidden-import "abrir_rodopar.rdp" 
+--hidden-import "abrir_rodopar.controle" 
+--hidden-import "plyer" 
+--hidden-import "plyer.platforms" 
+--hidden-import "plyer.platforms.win.notification"  "C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
 
 
 # Bot de Automação com BotCity

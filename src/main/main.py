@@ -6,7 +6,6 @@ import pyperclip
 import logging
 import os
 import sys
-import traceback
 from datetime import datetime
 from botcity.core import DesktopBot
 import tkinter as tk
@@ -259,7 +258,7 @@ class BotCriaFatura(DesktopBot):
                                                                     quantidade_cte = len(lista_CTES)
 
                                                                     
-                                                                    if self.find( "pastaNovoDoc", matching=0.97, waiting_time=5000) or self.find( "pastaNovoDoc1", matching=0.97, waiting_time=5000):
+                                                                    if self.find( "pastaNovoDoc", matching=0.97, waiting_time=2000) or self.find( "pastaNovoDoc1", matching=0.97, waiting_time=2000):
                                                                         self.click()
                                                                         #Apertar tab
                                                                         pyautogui.press('tab')
@@ -286,7 +285,7 @@ class BotCriaFatura(DesktopBot):
                                                                         pyautogui.press('enter')
 
 
-                                                                        if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "documentoJaFaturado", matching=0.97, waiting_time=2000):
 
                                                                             self.click()
                                                                             time.sleep(0.5)
@@ -314,7 +313,7 @@ class BotCriaFatura(DesktopBot):
 
                                                                             time.sleep(0.5)
 
-                                                                            if self.find( "cancelarRegistroDocumento", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "cancelarRegistroDocumento", matching=0.97, waiting_time=2000):
                                                                                 self.click()
                                                                                 time.sleep(0.5)
 
@@ -322,7 +321,7 @@ class BotCriaFatura(DesktopBot):
 
                                                                             continue
 
-                                                                        if self.find( "cteNaoAutorizado", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "cteNaoAutorizado", matching=0.97, waiting_time=2000):
                                                                             self.click()
                                                                             time.sleep(0.5)
                                                                             
@@ -339,7 +338,7 @@ class BotCriaFatura(DesktopBot):
 
                                                                             time.sleep(0.5)
 
-                                                                            if self.find( "cancelarRegistroDocumento", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "cancelarRegistroDocumento", matching=0.97, waiting_time=2000):
                                                                                 self.click()
                                                                                 time.sleep(0.5)
 
@@ -365,11 +364,11 @@ class BotCriaFatura(DesktopBot):
                                                                         listaCTes.at[CTes, 'SITUACAO'] = "FATURA INCONSISTENTE" 
                                                                         listaCTes.to_excel(caminho_arquivo, index=False)
 
-                                                                        if self.find( "excluir", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "excluir", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
-                                                                                    if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=5000):
-                                                                                        if self.find( "Yes", matching=0.97, waiting_time=5000):
+                                                                                    if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=2000):
+                                                                                        if self.find( "Yes", matching=0.97, waiting_time=2000):
                                                                                             self.click()
                                                                                             time.sleep(0.5)
                                                                                             pyautogui.hotkey('alt','v')
@@ -382,12 +381,12 @@ class BotCriaFatura(DesktopBot):
                                                                 else:
                                                                         
                                                                     #Confirmar se entrou buscando o 1 de 1
-                                                                    if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=5000):
+                                                                    if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=2000):
 
                                                                             #Estrutura de decisão para inserir o desconto somente se houver
                                                                             if desc != '0.0':
                                                                                 #Clicando no campo para inserir o desconto
-                                                                                if self.find( "desconto", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "desconto", matching=0.97, waiting_time=2000):
                                                                                     self.click_relative(153, 5)
 
                                                                                     #Digitando o valor do desconto
@@ -402,14 +401,14 @@ class BotCriaFatura(DesktopBot):
                                                                             #Estrutura de decisão para clicar no desconto somente se houver
                                                                             if desc != '0.0':
                                                                                 #Clicar no yes (somente se tiver desconto)
-                                                                                if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=2000):
                                                                                     self.click_relative(200, 77)
 
                                                                             #Clicar no yes
-                                                                            if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=2000):
                                                                                 self.click_relative(39, 66)
 
-                                                                                if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -437,7 +436,7 @@ class BotCriaFatura(DesktopBot):
 
                                                                                 else:
 
-                                                                                    if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                                    if self.find( "documentoJaFaturado", matching=0.97, waiting_time=2000):
                                                                                         self.click()
                                                                                         time.sleep(0.5)
                                                                                         duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -461,24 +460,24 @@ class BotCriaFatura(DesktopBot):
                                                                                         listaCTes.to_excel(caminho_arquivo, index=False)
                                                                                     
                                                                                     #Clicar no ok
-                                                                                    if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
+                                                                                    if self.find( "faturaEfetuada", matching=0.97, waiting_time=2000):
                                                                                         self.click()
                                                                                         #Fechando o ambiente de fatura
                                                                                         pyautogui.hotkey('alt','v')
 
                                                                     else:
-                                                                        if self.find( "excluir", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "excluir", matching=0.97, waiting_time=2000):
                                                                                 self.click()
                                                                                 time.sleep(0.5)
-                                                                                if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=5000):
-                                                                                    if self.find( "Yes", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=2000):
+                                                                                    if self.find( "Yes", matching=0.97, waiting_time=2000):
                                                                                         self.click()
                                                                                         time.sleep(0.5)
                                                                                         pyautogui.hotkey('alt','v')
                                                                         continue
 
                                                             else:
-                                                                if self.find( "pastaNovoDoc", matching=0.97, waiting_time=5000):
+                                                                if self.find( "pastaNovoDoc", matching=0.97, waiting_time=2000):
                                                                     self.click()
 
                                                                     #Apertar tab
@@ -503,7 +502,7 @@ class BotCriaFatura(DesktopBot):
                                                                     pyautogui.press('enter')
                                                                     pyautogui.press('enter')
 
-                                                                    if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                    if self.find( "documentoJaFaturado", matching=0.97, waiting_time=2000):
                                                                         self.click()
                                                                         time.sleep(0.5)
                                                                         duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -530,18 +529,18 @@ class BotCriaFatura(DesktopBot):
 
                                                                         time.sleep(0.5)
 
-                                                                        if self.find( "excluir", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "excluir", matching=0.97, waiting_time=2000):
                                                                             self.click()
                                                                             time.sleep(0.5)
-                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=5000):
-                                                                                if self.find( "Yes", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=2000):
+                                                                                if self.find( "Yes", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     pyautogui.hotkey('alt','v')
 
                                                                         continue
 
-                                                                    if self.find( "cteNaoAutorizado", matching=0.97, waiting_time=5000):
+                                                                    if self.find( "cteNaoAutorizado", matching=0.97, waiting_time=2000):
                                                                         self.click()
                                                                         time.sleep(0.5)
                                                                         
@@ -558,11 +557,11 @@ class BotCriaFatura(DesktopBot):
 
                                                                         time.sleep(0.5)
 
-                                                                        if self.find( "excluir", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "excluir", matching=0.97, waiting_time=2000):
                                                                             self.click()
                                                                             time.sleep(0.5)
-                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=5000):
-                                                                                if self.find( "Yes", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=2000):
+                                                                                if self.find( "Yes", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     pyautogui.hotkey('alt','v')
@@ -571,12 +570,12 @@ class BotCriaFatura(DesktopBot):
                                                                         continue
 
                                                                     #Confirmar se entrou buscando o 1 de 1
-                                                                if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=5000):
+                                                                if self.find("confirmacao_Doc_Inserido2", matching=0.97, waiting_time=2000):
 
                                                                         #Estrutura de decisão para inserir o desconto somente se houver
                                                                         if desc != '0.0':
                                                                             #Clicando no campo para inserir o desconto
-                                                                            if self.find( "desconto", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "desconto", matching=0.97, waiting_time=2000):
                                                                                 self.click_relative(153, 5)
 
                                                                                 #Digitando o valor do desconto
@@ -591,14 +590,14 @@ class BotCriaFatura(DesktopBot):
                                                                         #Estrutura de decisão para clicar no desconto somente se houver
                                                                         if desc != '0.0':
                                                                             #Clicar no yes (somente se tiver desconto)
-                                                                            if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "confirmacao_Desconto", matching=0.97, waiting_time=2000):
                                                                                 self.click_relative(200, 77)
 
                                                                         #Clicar no yes
-                                                                        if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=5000):
+                                                                        if self.find( "confirmacao_Efetuar_Fatura", matching=0.97, waiting_time=2000):
                                                                             self.click_relative(39, 66)
 
-                                                                            if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "jaFoiMovimentada", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -625,7 +624,7 @@ class BotCriaFatura(DesktopBot):
                                                                                     continue
                                                                             else:
 
-                                                                                if self.find( "documentoJaFaturado", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "documentoJaFaturado", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     duplicata = pyautogui.hotkey('ctrl', 'c')
@@ -649,17 +648,17 @@ class BotCriaFatura(DesktopBot):
                                                                                     listaCTes.to_excel(caminho_arquivo, index=False)
                                                                                 
                                                                                 #Clicar no ok
-                                                                                if self.find( "faturaEfetuada", matching=0.97, waiting_time=5000):
+                                                                                if self.find( "faturaEfetuada", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     #Fechando o ambiente de fatura
                                                                                     pyautogui.hotkey('alt','v')
                                                                             
                                                                 else:
-                                                                    if self.find( "excluir", matching=0.97, waiting_time=5000):
+                                                                    if self.find( "excluir", matching=0.97, waiting_time=2000):
                                                                             self.click()
                                                                             time.sleep(0.5)
-                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=5000):
-                                                                                if self.find( "Yes", matching=0.97, waiting_time=5000):
+                                                                            if self.find( "excluirRegistroPermanente", matching=0.97, waiting_time=2000):
+                                                                                if self.find( "Yes", matching=0.97, waiting_time=2000):
                                                                                     self.click()
                                                                                     time.sleep(0.5)
                                                                                     pyautogui.hotkey('alt','v')

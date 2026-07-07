@@ -1,45 +1,39 @@
-# Gerar .exe via auto-py-to-exe
+# Bot Criar Fatura
 
-```
-pyinstaller --noconfirm --onefile --console --name "Criar Fatura" 
---add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" 
---add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." 
---hidden-import "abrir_rodopar" 
---hidden-import "abrir_rodopar.rdp" 
---hidden-import "abrir_rodopar.controle" 
---hidden-import "plyer" 
---hidden-import "plyer.platforms" 
---hidden-import "plyer.platforms.win.notification"  "C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
-```
-
-pyinstaller --noconfirm --onefile --console --name "Bot Criar Fatura" 
---add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" 
---add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" --add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." --hidden-import "abrir_rodopar" 
---hidden-import "abrir_rodopar.rdp" 
---hidden-import "abrir_rodopar.controle" 
---hidden-import "plyer" 
---hidden-import "plyer.platforms" 
---hidden-import "plyer.platforms.win.notification"  "C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
-
-
-# Bot de Automação com BotCity
-
-Este projeto é um bot desenvolvido em Python usando a biblioteca [BotCity Core](https://github.com/botcity-dev/botcity-framework-core), que realiza ações automatizadas com base nos dados de uma planilha Excel. A automação depende de imagens contidas na pasta `resources`.
+Bot de automação (RPA) desenvolvido em Python com [BotCity Core](https://github.com/botcity-dev/botcity-framework-core), que realiza a criação de faturas no sistema Visual Rodopar com base em uma planilha Excel. O bot conecta-se ao ambiente remoto via RDP (usando o pacote `abrir_rodopar`), localiza elementos na tela por reconhecimento de imagem (pasta `resources`) e preenche os campos automaticamente.
 
 ---
 
-## 📁 Estrutura esperada do projeto
+## 📁 Estrutura do projeto
+
 ```
-seu-projeto/
+botCriarFatura/
 │
-├── bot.py
+├── src/
+│   └── main/
+│       ├── main.py                 # Ponto de entrada do bot (classe BotCriaFatura)
+│       └── controle_execucao.py    # Controle de pausar/continuar/parar via hotkeys
+│
+├── resources/                      # Imagens usadas pelo reconhecimento visual (BotCity)
+├── logs/                           # Logs gerados a cada execução (um arquivo por dia)
+├── .env                            # Credenciais e caminho do RDP (não versionar)
 ├── requirements.txt
-├── README.md
-└── resources/
-    ├── abaDocumentos.png
-    ├── desconto.png
-    └── ...
+└── readme.md
 ```
+
+---
+
+## 🔐 Configuração do ambiente (.env)
+
+O bot depende de um arquivo `.env` na raiz do projeto com as credenciais de acesso ao RDP, usado pelo pacote `abrir_rodopar` para abrir o Visual Rodopar automaticamente quando a tela de faturamento não é encontrada:
+
+```
+PATH_RDP=<caminho do arquivo .rdp ou host>
+USUARIO_RODOPAR=<usuário de acesso>
+SENHA_RODOPAR=<senha de acesso>
+```
+
+> ⚠️ Esse arquivo contém credenciais sensíveis. Ele já está listado no `.gitignore` — nunca faça commit de um `.env` com dados reais.
 
 ---
 
@@ -47,25 +41,45 @@ seu-projeto/
 
 Para que o bot funcione corretamente, a planilha de entrada deve conter as **seguintes colunas**, com os **nomes exatamente como listados abaixo** (não diferencia maiúsculas de minúsculas):
 
-- `Filial`
-- `PAGADOR`
-- `OBSERVACAO`
-- `SERIE CTE`
-- `CTES`
-- `DESCONTO`
+| Coluna | Uso |
+|---|---|
+| `FILIAL` | Filial da fatura e do CTe |
+| `PAGADOR` | Código do cliente pagador |
+| `OBSERVACAO` | Texto inserido no campo de observação da fatura |
+| `SERIE CTE` | Série do CTe (quando a linha tem um único CTe) |
+| `CTES` | Número do CTe, ou vários separados por vírgula no formato `numero-serie,numero-serie,...` |
+| `DESCONTO` | Valor do desconto (`0.0` = sem desconto) |
+| `SITUACAO` | Controla se a linha deve ser processada (`FATURAR` ou vazia = processa); é **atualizada pelo próprio bot** ao final (`FATURADO`, `EM VALIDAÇÃO`, `FATURA INCONSISTENTE`) |
+| `FATURA` | Preenchida pelo bot com o número da duplicata gerada |
+| `RESUMO` | Preenchida pelo bot com observações sobre inconsistências/erros encontrados na linha |
 
-Essas colunas são usadas nas seguintes variáveis do código:
+O bot **salva a planilha automaticamente** (sobrescrevendo o arquivo original) a cada atualização de situação, então o progresso não é perdido caso a execução seja interrompida.
 
-```python
-filFat = pegar_valor('Filial')
-codPag = pegar_valor('PAGADOR')
-obs    = pegar_valor('OBSERVACAO')
-filCTe = pegar_valor('Filial')
-serCTe = pegar_valor('SERIE CTE')
-numCTe = pegar_valor('CTES')
-desc   = pegar_valor('DESCONTO')
-```
-Por isso, os nomes das colunas precisam estar exatamente iguais aos nomes no código.
+Essas colunas são lidas em `src/main/main.py` através da função `pegar_valor(coluna)`.
+
+---
+
+## ⌨️ Controles durante a execução (hotkeys)
+
+Ao iniciar, o bot registra atalhos globais de teclado (funcionam mesmo com o foco em outra janela) para permitir intervenção manual sem precisar fechar o processo:
+
+| Atalho | Ação |
+|---|---|
+| `Ctrl + Shift + Space` | Pausa/retoma a automação (a pausa entra em vigor no próximo checkpoint, entre um CTe e outro) |
+| `Ctrl + Shift + Q` | Encerra a automação de forma segura |
+
+Cada mudança de estado dispara também uma notificação do sistema (via `plyer`) avisando que a automação foi pausada, retomada ou encerrada. A lógica está em `src/main/controle_execucao.py` (classe `ControleExecucao`).
+
+---
+
+## 📝 Logging
+
+Cada execução gera um arquivo de log em `logs/botCriarFatura_AAAA-MM-DD.log`, com:
+
+- Nível **DEBUG** no arquivo: toda ação de teclado/mouse (`pyautogui.write`, `press`, `hotkey`, `click`), todo `find()` de imagem (com resultado e tempo de busca) e toda gravação da planilha.
+- Nível **INFO** no console: progresso geral (planilha carregada, linha em processamento, planilha selecionada, atalhos registrados etc).
+
+Isso permite auditar depois exatamente o que o bot fez em cada linha da planilha, mesmo sem estar acompanhando a execução ao vivo.
 
 ---
 
@@ -103,7 +117,9 @@ python -m venv NomeDoVenv
 pip install -r requirements.txt
 ```
 
-5. **Instale o `auto-py-to-exe` dentro do ambiente virtual**:
+Dependências principais: `pyautogui`, `pandas`, `botcity-framework-core`, `openpyxl`, `pyperclip`, `keyboard` (hotkeys globais) e `plyer` (notificações do sistema).
+
+5. **Instale o `auto-py-to-exe` dentro do ambiente virtual** (opcional, apenas para gerar o `.exe`):
 
 ```bash
 pip install auto-py-to-exe
@@ -111,34 +127,38 @@ pip install auto-py-to-exe
 
 ---
 
-## 🛠 Como transformar em executável com auto-py-to-exe
+## 🛠 Gerando o executável (.exe)
 
-### 1. Execute o `auto-py-to-exe`
+### Opção 1: Linha de comando (PyInstaller)
 
-No terminal:
-
-```bash
-auto-py-to-exe
+```
+pyinstaller --noconfirm --onefile --console --name "Bot Criar Fatura" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\resources;resources/" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\sources;sources/" 
+--add-data "C:\Users\automacao\Documents\botCriarFatura\.venv\Lib\site-packages\abrir_rodopar\hosts.json;." 
+--hidden-import "abrir_rodopar" 
+--hidden-import "abrir_rodopar.rdp" 
+--hidden-import "abrir_rodopar.controle" 
+--hidden-import "plyer" 
+--hidden-import "plyer.platforms" 
+--hidden-import "plyer.platforms.win.notification"  
+"C:\Users\automacao\Documents\botCriarFatura\src\main\main.py"
 ```
 
-### 2. Configure a interface
+> Lembre-se de colocar o arquivo `.env` na mesma pasta do `.exe` gerado, já que ele não é empacotado junto pelo PyInstaller.
 
-No painel que abrir:
+### Opção 2: Interface gráfica (auto-py-to-exe)
 
-- **Script location**: selecione o arquivo `bot.py`
-- **Onefile**: marque para criar um único `.exe`
-- **Console Window**:
-  - Marque Window Based se estiver marcado.
-
-### 3. Adicione a pasta `resources`
-
-1. Clique em **"Add Files"** ou **"Add Folder"** no painel "Additional Files"
-2. Adicione a **pasta `resources` inteira**
-3. Certifique-se de que ela será incluída na raiz do `.exe`, mantendo a estrutura correta
-
-### 4. Converter
-
-Clique em **"Convert .py to .exe"** e aguarde o processo finalizar.
+1. No terminal, execute:
+   ```bash
+   auto-py-to-exe
+   ```
+2. No painel que abrir:
+   - **Script location**: selecione `src/main/main.py`
+   - **Onefile**: marque para criar um único `.exe`
+   - **Console Window**: marque conforme preferência
+3. Em **"Additional Files"**, adicione a pasta `resources` inteira, garantindo que ela fique na raiz do `.exe`.
+4. Clique em **"Convert .py to .exe"** e aguarde o processo finalizar.
 
 O executável será gerado na pasta `output` (ou outra definida por você).
 
@@ -146,21 +166,19 @@ O executável será gerado na pasta `output` (ou outra definida por você).
 
 ## ✅ Requisitos para executar o bot
 
-1. Ter o arquivo `bot.exe` gerado
-2. Ter a planilha Excel com as colunas corretas (veja seção acima)
-3. Garantir que as imagens estejam na pasta `resources`, na mesma pasta do `.exe`
-4. Executar o `.exe` com duplo clique ou pelo terminal
+1. Ter o arquivo `.exe` gerado (ou rodar via `python src/main/main.py` em modo desenvolvimento)
+2. Ter o arquivo `.env` configurado na mesma pasta, com as credenciais de RDP
+3. Ter a planilha Excel com as colunas corretas (veja seção acima)
+4. Garantir que as imagens estejam na pasta `resources`, na mesma pasta do `.exe`
+5. Executar o `.exe` (ou o script) e selecionar a planilha na janela de seleção de arquivo que abrirá automaticamente
+6. Usar `Ctrl+Shift+Space` / `Ctrl+Shift+Q` conforme necessário para pausar ou encerrar a automação
 
 ---
 
-## 📦 Dica para ambiente Python antes da conversão
+## 📦 Testando em modo desenvolvimento
 
-Se quiser testar o código em modo desenvolvimento antes de empacotar:
+Se quiser testar o código antes de empacotar (lembrando de ativar o ambiente virtual antes, se estiver usando):
 
 ```bash
-python bot.py
+python src/main/main.py
 ```
-
-(lembrando de ativar o ambiente virtual antes, se estiver usando)
-
-

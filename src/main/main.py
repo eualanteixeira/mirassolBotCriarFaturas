@@ -162,6 +162,7 @@ class BotCriaFatura(DesktopBot):
                         pyautogui.alert(f"Erro ao acessar a coluna '{coluna}'. Verifique se ela existe na planilha.")
                         raise e
 
+#TODO AJUSTE COM NOVO MODELO DE PLANILHA NA PASTA DOCS/
 
                 #Alimentando as variaveis
                 filFat = pegar_valor('FILIAL')

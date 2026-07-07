@@ -175,15 +175,7 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
-*.xlsx
-*.xls
-*.docx
-*.doc
-*.pdf
-*.zip
-*.rar
-*.tar.gz
-*.7z
+
 *.exe
 CriarFatura/
 output/
